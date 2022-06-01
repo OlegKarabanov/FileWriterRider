@@ -55,7 +55,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+// открытие файла
 
+    public void openText(View view) {
+        FileInputStream fin = null;  // изначально равен 0
+        TextView textView = (TextView) findViewById(R.id.text); // находим наш файл
+
+        try {
+            fin = openFileInput(FILE_NAME);
+            byte[] bytes = new byte[fin.available()]; //чтение наших файлов,складываем новый массив
+            fin.read(bytes);  // прочитаем данный файл
+            String text = new String(bytes); // создаем стрингу из байтов
+            textView.setText(text); // выставляем текст
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+
+            try {
+                if (fin != null) {
+                    fin.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 
 }
 
